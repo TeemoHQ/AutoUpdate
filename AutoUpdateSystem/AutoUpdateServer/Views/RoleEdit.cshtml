@@ -1,0 +1,218 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.RoleModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <script type="text/javascript" src="~/Content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/Content/Js/common.js"></script>
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bui-min.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form id="J_Form" action="../RoleEdit" method="post" onsubmit="return toVaild()">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td width="10%" class="tableleft">角色名称</td>
+                <td>
+                    <input type="text" readonly="readonly" id="Name" name="Name" style="width:150px" value="@Model.Name" />
+                    <span style="color:red;font-size:20px">&nbsp;*</span>
+                </td>
+            </tr>
+            <tr>
+                <td width="10%" class="tableleft">专属医院编号</td>
+                <td>
+                    <input type="hidden" id="ManageHospital" value="@Model.ManageHospital" />
+                    <div class="controls">
+                        <input name="HospitalText" id="HospitalText" type="text" class="input-normal control-text"><span style="color:red;font-size:20px">&nbsp;*</span>
+                    </div>
+                    <input name="AllHospitalCheck" id="AllHospitalCheck" type="checkbox" value="1" /><span>全部医院</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">状态</td>
+                <td>
+                    @if (Model.Status == "1")
+                    {
+                        <input type="radio" name="status" value="1" checked /> <span>启用</span>
+                        <input type="radio" name="status" value="0" /><span>禁用</span>
+                    }
+                    else
+                    {
+                        <input type="radio" name="status" value="1" /> <span>启用</span>
+                        <input type="radio" name="status" value="0" checked /><span>禁用</span>
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">权限</td>
+                <td>
+                    <ul>
+                        @*<li>
+                                <label class='checkbox inline'><input type='checkbox' name='node' id="Authoriz" value='Authoriz' />授权权限</label>
+                            </li>*@
+                        
+                        <li>
+                            <input type="hidden" id="Permission" value="@Model.Permission" />
+                            <label class='checkbox inline'><input type='checkbox' name='group' value='RoleGroup' id="RoleGroup" />角色管理</label>
+                            <ul>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="RoleAdd" name='node' value='RoleAdd' />角色新增</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="RoleEdit" name='node' value='RoleEdit' />角色编辑</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="RoleDelete" name='node' value='RoleDelete' />角色删除</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="RoleManage" name='node' value='RoleManage' />角色查看</label>
+                            </ul>
+                        </li>
+                        <li>
+                            <label class='checkbox inline'><input type='checkbox' name='group' value='UserGroup' id="UserGroup" />用户管理</label>
+                            <ul>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UserAdd" name='node' value='UserAdd' />用户新增</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UserEdit" name='node' value='UserEdit' />用户编辑</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UserDelete" name='node' value='UserDelete' />用户删除</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UserManage" name='node' value='UserManage' />用户查看</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UserPassWordReset" name='node' value='UserPassWordReset' />重置密码</label>
+                            </ul>
+                        </li>
+                        <li>
+                            <label class='checkbox inline'><input type='checkbox' name='group' value='HospitalGroup' id="HospitalGroup" />医院管理</label>
+                            <ul>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="HospitalAdd" name='node' value='HospitalAdd' />医院新增</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="HospitalEdit" name='node' value='HospitalEdit' />医院编辑</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="HospitalDelete" name='node' value='HospitalDelete' />医院删除</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="HospitalManage" name='node' value='HospitalManage' />医院查看</label>
+                            </ul>
+                        </li>
+                        <li>
+                            <label class='checkbox inline'><input type='checkbox' name='group' value='VersionGroup' id="VersionGroup" />版本管理</label>
+                            <ul>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="VersionAdd" name='node' value='VersionAdd' />版本新增</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="VersionEdit" name='node' value='VersionEdit' />版本编辑</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="VersionDelete" name='node' value='VersionDelete' />版本删除</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="VersionManage" name='node' value='VersionManage' />版本查看</label>
+                            </ul>
+                        </li>
+                        <li>
+                            <label class='checkbox inline'><input type='checkbox' name='group' value='UpLoadGroup' id="UpLoadGroup" />上传版本</label>
+                            <ul>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UpLoadBaseModelFile" name='node' value='UpLoadBaseModelFile' />上传基础版本</label>
+                                <li>
+                                    <label class='checkbox inline'><input type='checkbox' id="UpLoadFile" name='node' value='UpLoadFile' />上传普通版本</label>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button class="btn btn-primary" type="submit">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    $(function () {
+        $(':checkbox[name="group"]').click(function () {
+            $(':checkbox', $(this).closest('li')).prop('checked', this.checked);
+        });
+
+        $('#backid').click(function () {
+            window.location.href = "RoleManage";
+        });
+        if ($.browser.msie) {
+            $('input:checkbox').click(function () {
+                this.blur();
+                this.focus();
+            });
+        };
+        $("#AllHospitalCheck").change(function () {
+            if ($("#AllHospitalCheck").is(':checked')) {
+                $("#HospitalText").attr({ "disabled": "disabled" });
+            }
+            else {
+                $("#HospitalText").removeAttr("disabled");
+            }
+        });
+
+        Init();
+    });
+
+    function Init() {
+        var nodesArr = $("#Permission").val().split(',');
+        nodesArr.forEach(function (e) {
+            if ($('#' + e).length) {
+                $('#' + e).attr("checked", true);
+            }
+        });
+        var manageHospital = $("#ManageHospital").val();
+        if (manageHospital.toUpperCase() == "ALL") {
+            $("#HospitalText").attr({ "disabled": "disabled" });
+            $("#AllHospitalCheck").attr("checked", true);
+        }
+        else {
+            $("#HospitalText").val(manageHospital);
+        }
+
+    }
+
+    var Form = BUI.Form;
+    new Form.Form({
+        srcNode: '#J_Form'
+    }).render();
+
+
+    function toVaild() {
+        if ($("#RoleName").val() != "" && ($("#HospitalText").val() != "" || $("#AllHospitalCheck").is(':checked'))) {
+            return true;
+        }
+        alert("请将信息填写完整");
+        return false;
+    }
+</script>

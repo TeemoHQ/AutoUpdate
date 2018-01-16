@@ -1,0 +1,162 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.RoleModel>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <script type="text/javascript" src="~/Content/Js/jquery.js"></script>
+    <script type="text/javascript" src="~/Content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/Content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/Content/Js/common.js"></script>
+    <script src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script src="~/assets/js/bui.js"></script>
+    @*<link href="~/assets/css/dpl-min.css" rel="stylesheet" />*@
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        /* media (max-width: 980px) {*/
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        /*}*/
+    </style>
+</head>
+
+<body>
+    <form class="form-inline definewidth m20" action="QueryRole" method="post">
+        角色名称：
+        <input type="text" name="RoleName" id="RoleName" class="abc input-default" placeholder="" value="">&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增角色</button>
+    </form>
+    <table class="table table-bordered table-hover definewidth m10">
+        <thead>
+            <tr>
+                <th>角色名称</th>
+                <th>管理医院</th>
+                <th>状态</th>
+                <th>创建者</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.ManageHospital</td>
+                    @if (item.Status == "1")
+                    {
+                        <td>启用</td>
+                    }
+                    else
+                    {
+                        <td>禁用</td>
+                    }
+                    <td>@item.CreateUer</td>
+                    <td>@item.CreateTime</td>
+                    <td>
+                        <a href="RoleEdit/@item.Name" style="margin:auto">编辑</a>
+                        <a style="cursor:pointer" onclick="Del(this)" title="@item.Name">删除</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</body>
+</html>
+
+<script>
+    $(function () {
+        $('#addnew').click(function () {
+            window.location.href = "RoleAdd";
+        });
+
+    });
+    function Del(val) {
+        if (confirm("确定要删除吗？")) {
+            $.ajax({
+                type: "post",
+                url: "RoleDelete/" + val.title,
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = "RoleManage";
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        }
+    }
+
+    //模态窗，暂时不用
+    //function Del(control) {
+    //    var bodyContent = "请为当前角色为' <span style='color:orangered'>" + control.title + "</span>' 的用户选择未来的角色</p><select id='checkRole'><option value=''>请选择</option>";
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "GetRolesToJson",
+    //        cache: false,
+    //        contentType: JSON,
+    //        success: function (res) {
+    //            var items = res;
+    //            var currentValue = control.title;
+    //            $.each(items, function (n, data) {
+    //                if (currentValue != data.value) {
+    //                    bodyContent += "<option value='" + data.value + "'>" + data.text + "</option>";
+    //                }
+    //            });
+    //            bodyContent += "</select><input type='hidden' id=warn >";
+    //            BUI.use(['bui/overlay'], function (Overlay) {
+    //                var dialog = new Overlay.Dialog({
+    //                    title: '删除角色',
+    //                    width: 500,
+    //                    height: 320,
+    //                    bodyContent: bodyContent,
+    //                    success: function () {
+    //                        var roleName = $("#checkRole").val();
+    //                        if (roleName == "") {
+    //                            return;
+    //                        }
+
+    //                        $.ajax({
+    //                            type: "post",
+    //                            url: "RoleDelete/" + control.title,
+    //                            dataType: "json",
+    //                            success: function (data) {
+    //                                window.location.href = "RoleManage";
+    //                                this.close();
+    //                            },
+    //                            error: function () {
+    //                                alert("error");
+    //                                this.close();
+    //                            }
+    //                        });
+                           
+    //                    }
+    //                });
+    //                dialog.show();
+    //            });
+    //        }
+    //    });
+
+    //}
+
+</script>

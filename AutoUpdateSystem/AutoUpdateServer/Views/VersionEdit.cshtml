@@ -1,0 +1,141 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.VersionModel>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/Css/style.css" />
+    <script type="text/javascript" src="../../Content/Js/jquery.js"></script>
+    <script type="text/javascript" src="../../Content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../Content/Js/ckform.js"></script>
+    <script type="text/javascript" src="../../Content/Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<form action="../VersionEdit" method="post" class="definewidth m20" onsubmit="return check()">
+    <table class="table table-bordered table-hover definewidth m10">
+        <tr>
+            <td class="tableleft">医院编号：</td>
+            <td>
+                <input name="ID" value="@Model.Id" style="display: none"/>
+                <input name="DynamicCodeVersion" value="@Model.DynamicCodeVersion" style="display: none"/>
+                <input name="HospitalID" value="@Model.HospitalId" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">版本编号：</td>
+            <td>
+                <input name="Number" value="@Model.Number" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">上传时间：</td>
+            <td>
+                <input name="UpLoadTime" value="@Model.UpLoadTime" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">上传人：</td>
+            <td>
+                <input name="User" value="@Model.User" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">黑名单：</td>
+            <td>
+                <textarea type="text" readonly="readonly" name="BlackList" style="min-width: 500px; min-height: 200px" placeholder="请把要过滤文件逗号隔开,支持模糊过滤">@Model.BlackList</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">存在则忽略：</td>
+            <td>
+                <textarea type="text" readonly="readonly"  name="ExistSoIgnoreList" style="min-width: 500px; min-height: 200px" placeholder="请把要过滤文件逗号隔开,支持模糊过滤">@Model.ExistSoIgnoreList</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">动态代码：</td>
+            <td>
+                <textarea type="text" id="DynamicCode" name="DynamicCode" style="min-width: 500px; min-height: 200px" >@Model.DynamicCode</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">版本信息：</td>
+            <td>
+                <textarea type="text" name="Description" style="min-width: 500px; min-height: 200px">@Model.Description</textarea>
+                <input name="OldDynamicCode" value="@Model.DynamicCode" style="display: none"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft"></td>
+            <td>
+                <button type="submit"  class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+<script>
+    var right = false;
+    $(function () {
+        $("input[name=HospitalID]").attr("readonly", "readonly");
+        $("input[name=Number]").attr("readonly", "readonly");
+        $("input[name=UpLoadTime]").attr("readonly", "readonly");
+        $("input[name=User]").attr("readonly", "readonly");
+        $('#backid').click(function () {
+            var hospitalID = $("input[name=HospitalID]").val();
+            window.location.href = "../VersionManage/" + hospitalID;
+        });
+    });
+
+    function check() {
+        var oldValue = $("input[name=OldDynamicCode]").val();
+        var newValue = $("#DynamicCode").val();//贼 奇怪 name 形式 就获取不到
+        if (oldValue !== newValue) {
+            var time = getNowFormatDate();
+            $("input[name=DynamicCodeVersion]").val(time);
+        }
+        return true;
+    }
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+
+</script>

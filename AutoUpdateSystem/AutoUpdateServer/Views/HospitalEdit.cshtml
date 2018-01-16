@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.HospitalModel>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <script type="text/javascript" src="~/Content/Js/jquery.js"></script>
+    <script type="text/javascript" src="~/Content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/Content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/Content/Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="../HospitalEdit" method="post" class="definewidth m20">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr style="display: none">
+                <td class="tableleft">医院编号</td>
+                <td><input type="text" id="HospitalID" name="ID"  value="@Model.Id" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">医院名称</td>
+                <td><input type="text" name="Name" onBlur="checkName()"  value="@Model.Name" /><span style="color:red;display:none" id="checkNameSpan">不能为空</span></td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button class="btn btn-primary" type="submit" >保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    var right=false;
+    $(function () {
+        $("input[name=HospitalID]").attr("readonly", "readonly");
+        $('#backid').click(function () {
+            window.location.href = "../HospitalManage";
+        });
+        $('#checkNameSpan').hide();
+    });
+
+    function checkName()
+    {
+        var HospitalID = $('#HospitalName').val();
+        if (HospitalID == "")
+        {
+            $('#checkNameSpan').show();
+            return;
+        }
+        $('#checkNameSpan').hide();
+     
+    }
+
+</script>

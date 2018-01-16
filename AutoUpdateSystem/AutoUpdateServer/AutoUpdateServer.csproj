@@ -1,0 +1,828 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{38FC8591-1D0F-4711-BF88-26BF005DBCCD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoUpdateServer</RootNamespace>
+    <AssemblyName>AutoUpdateServer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Forms, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Forms.1.4.1\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Bootstrappers.Autofac, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Bootstrappers.Autofac.1.4.1\lib\net40\Nancy.Bootstrappers.Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Aspnet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Hosting.Aspnet.1.4.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.ViewEngines.Razor, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="7ZIP\64bit\7-zip.dll" />
+    <Content Include="7ZIP\64bit\7z.dll" />
+    <Content Include="7ZIP\64bit\7zFM.exe" />
+    <Content Include="7ZIP\64bit\7zG.exe" />
+    <Content Include="7ZIP\64bit\7z.exe" />
+    <Content Include="7ZIP\32bit\7-zip.dll" />
+    <Content Include="7ZIP\32bit\7z.dll" />
+    <Content Include="7ZIP\32bit\7z.exe" />
+    <Content Include="7ZIP\32bit\7zFM.exe" />
+    <Content Include="7ZIP\32bit\7zG.exe" />
+    <Content Include="assets\css\bui-min.css" />
+    <Content Include="assets\css\bui.css" />
+    <Content Include="assets\css\dpl-min.css" />
+    <Content Include="assets\css\dpl.css" />
+    <Content Include="assets\css\main-min.css" />
+    <Content Include="assets\css\main.css" />
+    <Content Include="assets\css\page-min.css" />
+    <Content Include="assets\css\page.css" />
+    <Content Include="assets\css\prettify.css" />
+    <Content Include="assets\img\hide_list.png" />
+    <Content Include="assets\img\icon1.png" />
+    <Content Include="assets\img\icon2.png" />
+    <Content Include="assets\img\left-slib.gif" />
+    <Content Include="assets\img\main-nav-bg.png" />
+    <Content Include="assets\img\main-nav-bg1.png" />
+    <Content Include="assets\img\main-nav-bg2.png" />
+    <Content Include="assets\img\menu.jpg" />
+    <Content Include="assets\img\nav.jpg" />
+    <Content Include="assets\img\nav_selected.png" />
+    <Content Include="assets\img\resource.jpg" />
+    <Content Include="assets\img\T1GgTxXm4qXXaGyjny-500-188.png" />
+    <Content Include="assets\img\T1rPjKXXJrXXXVYvLb-15-188.png" />
+    <Content Include="assets\img\T1SMojXedaXXXCL3TD-469-300.png" />
+    <Content Include="assets\img\top.png" />
+    <Content Include="assets\img\锁.png" />
+    <Content Include="assets\js\bui-min.js" />
+    <Content Include="assets\js\bui.js" />
+    <Content Include="assets\js\common\build.xml" />
+    <Content Include="assets\js\common\main-min.js" />
+    <Content Include="assets\js\common\main.js" />
+    <Content Include="assets\js\common\page-min.js" />
+    <Content Include="assets\js\common\page.js" />
+    <Content Include="assets\js\common\search-min.js" />
+    <Content Include="assets\js\common\search.js" />
+    <Content Include="assets\js\config-min.js" />
+    <Content Include="assets\js\editor-min.js" />
+    <Content Include="assets\js\jquery-1.8.1.min.js" />
+    <Content Include="assets\js\layout-min.js" />
+    <Content Include="assets\js\module\build.xml" />
+    <Content Include="assets\js\jquery.js" />
+    <Content Include="assets\js\prettify.js" />
+    <Content Include="assets\js\sea.js" />
+    <Content Include="assets\js\swf-min.js" />
+    <Content Include="assets\js\toolbar-min.js" />
+    <Content Include="assets\js\tree-min.js" />
+    <Content Include="assets\js\uploader-min.js" />
+    <Content Include="assets\loading.gif" />
+    <Content Include="Config\ServerConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\src-noconflict\ace.js" />
+    <Content Include="assets\src-noconflict\ext-beautify.js" />
+    <Content Include="assets\src-noconflict\ext-chromevox.js" />
+    <Content Include="assets\src-noconflict\ext-elastic_tabstops_lite.js" />
+    <Content Include="assets\src-noconflict\ext-emmet.js" />
+    <Content Include="assets\src-noconflict\ext-error_marker.js" />
+    <Content Include="assets\src-noconflict\ext-keybinding_menu.js" />
+    <Content Include="assets\src-noconflict\ext-language_tools.js" />
+    <Content Include="assets\src-noconflict\ext-linking.js" />
+    <Content Include="assets\src-noconflict\ext-modelist.js" />
+    <Content Include="assets\src-noconflict\ext-old_ie.js" />
+    <Content Include="assets\src-noconflict\ext-searchbox.js" />
+    <Content Include="assets\src-noconflict\ext-settings_menu.js" />
+    <Content Include="assets\src-noconflict\ext-spellcheck.js" />
+    <Content Include="assets\src-noconflict\ext-split.js" />
+    <Content Include="assets\src-noconflict\ext-static_highlight.js" />
+    <Content Include="assets\src-noconflict\ext-statusbar.js" />
+    <Content Include="assets\src-noconflict\ext-textarea.js" />
+    <Content Include="assets\src-noconflict\ext-themelist.js" />
+    <Content Include="assets\src-noconflict\ext-whitespace.js" />
+    <Content Include="assets\src-noconflict\keybinding-emacs.js" />
+    <Content Include="assets\src-noconflict\keybinding-vim.js" />
+    <Content Include="assets\src-noconflict\mode-abap.js" />
+    <Content Include="assets\src-noconflict\mode-abc.js" />
+    <Content Include="assets\src-noconflict\mode-actionscript.js" />
+    <Content Include="assets\src-noconflict\mode-ada.js" />
+    <Content Include="assets\src-noconflict\mode-apache_conf.js" />
+    <Content Include="assets\src-noconflict\mode-applescript.js" />
+    <Content Include="assets\src-noconflict\mode-asciidoc.js" />
+    <Content Include="assets\src-noconflict\mode-assembly_x86.js" />
+    <Content Include="assets\src-noconflict\mode-autohotkey.js" />
+    <Content Include="assets\src-noconflict\mode-batchfile.js" />
+    <Content Include="assets\src-noconflict\mode-bro.js" />
+    <Content Include="assets\src-noconflict\mode-c9search.js" />
+    <Content Include="assets\src-noconflict\mode-cirru.js" />
+    <Content Include="assets\src-noconflict\mode-clojure.js" />
+    <Content Include="assets\src-noconflict\mode-cobol.js" />
+    <Content Include="assets\src-noconflict\mode-coffee.js" />
+    <Content Include="assets\src-noconflict\mode-coldfusion.js" />
+    <Content Include="assets\src-noconflict\mode-csharp.js" />
+    <Content Include="assets\src-noconflict\mode-css.js" />
+    <Content Include="assets\src-noconflict\mode-curly.js" />
+    <Content Include="assets\src-noconflict\mode-c_cpp.js" />
+    <Content Include="assets\src-noconflict\mode-d.js" />
+    <Content Include="assets\src-noconflict\mode-dart.js" />
+    <Content Include="assets\src-noconflict\mode-diff.js" />
+    <Content Include="assets\src-noconflict\mode-django.js" />
+    <Content Include="assets\src-noconflict\mode-dockerfile.js" />
+    <Content Include="assets\src-noconflict\mode-dot.js" />
+    <Content Include="assets\src-noconflict\mode-drools.js" />
+    <Content Include="assets\src-noconflict\mode-eiffel.js" />
+    <Content Include="assets\src-noconflict\mode-ejs.js" />
+    <Content Include="assets\src-noconflict\mode-elixir.js" />
+    <Content Include="assets\src-noconflict\mode-elm.js" />
+    <Content Include="assets\src-noconflict\mode-erlang.js" />
+    <Content Include="assets\src-noconflict\mode-forth.js" />
+    <Content Include="assets\src-noconflict\mode-fortran.js" />
+    <Content Include="assets\src-noconflict\mode-ftl.js" />
+    <Content Include="assets\src-noconflict\mode-gcode.js" />
+    <Content Include="assets\src-noconflict\mode-gherkin.js" />
+    <Content Include="assets\src-noconflict\mode-gitignore.js" />
+    <Content Include="assets\src-noconflict\mode-glsl.js" />
+    <Content Include="assets\src-noconflict\mode-gobstones.js" />
+    <Content Include="assets\src-noconflict\mode-golang.js" />
+    <Content Include="assets\src-noconflict\mode-graphqlschema.js" />
+    <Content Include="assets\src-noconflict\mode-groovy.js" />
+    <Content Include="assets\src-noconflict\mode-haml.js" />
+    <Content Include="assets\src-noconflict\mode-handlebars.js" />
+    <Content Include="assets\src-noconflict\mode-haskell.js" />
+    <Content Include="assets\src-noconflict\mode-haskell_cabal.js" />
+    <Content Include="assets\src-noconflict\mode-haxe.js" />
+    <Content Include="assets\src-noconflict\mode-hjson.js" />
+    <Content Include="assets\src-noconflict\mode-html.js" />
+    <Content Include="assets\src-noconflict\mode-html_elixir.js" />
+    <Content Include="assets\src-noconflict\mode-html_ruby.js" />
+    <Content Include="assets\src-noconflict\mode-ini.js" />
+    <Content Include="assets\src-noconflict\mode-io.js" />
+    <Content Include="assets\src-noconflict\mode-jack.js" />
+    <Content Include="assets\src-noconflict\mode-jade.js" />
+    <Content Include="assets\src-noconflict\mode-java.js" />
+    <Content Include="assets\src-noconflict\mode-javascript.js" />
+    <Content Include="assets\src-noconflict\mode-json.js" />
+    <Content Include="assets\src-noconflict\mode-jsoniq.js" />
+    <Content Include="assets\src-noconflict\mode-jsp.js" />
+    <Content Include="assets\src-noconflict\mode-jsx.js" />
+    <Content Include="assets\src-noconflict\mode-julia.js" />
+    <Content Include="assets\src-noconflict\mode-kotlin.js" />
+    <Content Include="assets\src-noconflict\mode-latex.js" />
+    <Content Include="assets\src-noconflict\mode-lean.js" />
+    <Content Include="assets\src-noconflict\mode-less.js" />
+    <Content Include="assets\src-noconflict\mode-liquid.js" />
+    <Content Include="assets\src-noconflict\mode-lisp.js" />
+    <Content Include="assets\src-noconflict\mode-livescript.js" />
+    <Content Include="assets\src-noconflict\mode-live_script.js" />
+    <Content Include="assets\src-noconflict\mode-logiql.js" />
+    <Content Include="assets\src-noconflict\mode-lsl.js" />
+    <Content Include="assets\src-noconflict\mode-lua.js" />
+    <Content Include="assets\src-noconflict\mode-luapage.js" />
+    <Content Include="assets\src-noconflict\mode-lucene.js" />
+    <Content Include="assets\src-noconflict\mode-makefile.js" />
+    <Content Include="assets\src-noconflict\mode-markdown.js" />
+    <Content Include="assets\src-noconflict\mode-mask.js" />
+    <Content Include="assets\src-noconflict\mode-matlab.js" />
+    <Content Include="assets\src-noconflict\mode-mavens_mate_log.js" />
+    <Content Include="assets\src-noconflict\mode-maze.js" />
+    <Content Include="assets\src-noconflict\mode-mel.js" />
+    <Content Include="assets\src-noconflict\mode-mipsassembler.js" />
+    <Content Include="assets\src-noconflict\mode-mips_assembler.js" />
+    <Content Include="assets\src-noconflict\mode-mushcode.js" />
+    <Content Include="assets\src-noconflict\mode-mysql.js" />
+    <Content Include="assets\src-noconflict\mode-nix.js" />
+    <Content Include="assets\src-noconflict\mode-nsis.js" />
+    <Content Include="assets\src-noconflict\mode-objectivec.js" />
+    <Content Include="assets\src-noconflict\mode-ocaml.js" />
+    <Content Include="assets\src-noconflict\mode-pascal.js" />
+    <Content Include="assets\src-noconflict\mode-perl.js" />
+    <Content Include="assets\src-noconflict\mode-pgsql.js" />
+    <Content Include="assets\src-noconflict\mode-php.js" />
+    <Content Include="assets\src-noconflict\mode-pig.js" />
+    <Content Include="assets\src-noconflict\mode-plain_text.js" />
+    <Content Include="assets\src-noconflict\mode-powershell.js" />
+    <Content Include="assets\src-noconflict\mode-praat.js" />
+    <Content Include="assets\src-noconflict\mode-prolog.js" />
+    <Content Include="assets\src-noconflict\mode-properties.js" />
+    <Content Include="assets\src-noconflict\mode-protobuf.js" />
+    <Content Include="assets\src-noconflict\mode-python.js" />
+    <Content Include="assets\src-noconflict\mode-r.js" />
+    <Content Include="assets\src-noconflict\mode-razor.js" />
+    <Content Include="assets\src-noconflict\mode-rdoc.js" />
+    <Content Include="assets\src-noconflict\mode-rhtml.js" />
+    <Content Include="assets\src-noconflict\mode-rst.js" />
+    <Content Include="assets\src-noconflict\mode-ruby.js" />
+    <Content Include="assets\src-noconflict\mode-rust.js" />
+    <Content Include="assets\src-noconflict\mode-sass.js" />
+    <Content Include="assets\src-noconflict\mode-scad.js" />
+    <Content Include="assets\src-noconflict\mode-scala.js" />
+    <Content Include="assets\src-noconflict\mode-scheme.js" />
+    <Content Include="assets\src-noconflict\mode-scss.js" />
+    <Content Include="assets\src-noconflict\mode-sh.js" />
+    <Content Include="assets\src-noconflict\mode-sjs.js" />
+    <Content Include="assets\src-noconflict\mode-smarty.js" />
+    <Content Include="assets\src-noconflict\mode-snippets.js" />
+    <Content Include="assets\src-noconflict\mode-soy_template.js" />
+    <Content Include="assets\src-noconflict\mode-space.js" />
+    <Content Include="assets\src-noconflict\mode-sparql.js" />
+    <Content Include="assets\src-noconflict\mode-sql.js" />
+    <Content Include="assets\src-noconflict\mode-sqlserver.js" />
+    <Content Include="assets\src-noconflict\mode-stylus.js" />
+    <Content Include="assets\src-noconflict\mode-svg.js" />
+    <Content Include="assets\src-noconflict\mode-swift.js" />
+    <Content Include="assets\src-noconflict\mode-swig.js" />
+    <Content Include="assets\src-noconflict\mode-tcl.js" />
+    <Content Include="assets\src-noconflict\mode-tex.js" />
+    <Content Include="assets\src-noconflict\mode-text.js" />
+    <Content Include="assets\src-noconflict\mode-textile.js" />
+    <Content Include="assets\src-noconflict\mode-toml.js" />
+    <Content Include="assets\src-noconflict\mode-tsx.js" />
+    <Content Include="assets\src-noconflict\mode-turtle.js" />
+    <Content Include="assets\src-noconflict\mode-twig.js" />
+    <Content Include="assets\src-noconflict\mode-typescript.js" />
+    <Content Include="assets\src-noconflict\mode-vala.js" />
+    <Content Include="assets\src-noconflict\mode-vbscript.js" />
+    <Content Include="assets\src-noconflict\mode-velocity.js" />
+    <Content Include="assets\src-noconflict\mode-verilog.js" />
+    <Content Include="assets\src-noconflict\mode-vhdl.js" />
+    <Content Include="assets\src-noconflict\mode-wollok.js" />
+    <Content Include="assets\src-noconflict\mode-xml.js" />
+    <Content Include="assets\src-noconflict\mode-xquery.js" />
+    <Content Include="assets\src-noconflict\mode-yaml.js" />
+    <Content Include="assets\src-noconflict\snippets\abap.js" />
+    <Content Include="assets\src-noconflict\snippets\abc.js" />
+    <Content Include="assets\src-noconflict\snippets\actionscript.js" />
+    <Content Include="assets\src-noconflict\snippets\ada.js" />
+    <Content Include="assets\src-noconflict\snippets\apache_conf.js" />
+    <Content Include="assets\src-noconflict\snippets\applescript.js" />
+    <Content Include="assets\src-noconflict\snippets\asciidoc.js" />
+    <Content Include="assets\src-noconflict\snippets\assembly_x86.js" />
+    <Content Include="assets\src-noconflict\snippets\autohotkey.js" />
+    <Content Include="assets\src-noconflict\snippets\batchfile.js" />
+    <Content Include="assets\src-noconflict\snippets\bro.js" />
+    <Content Include="assets\src-noconflict\snippets\c9search.js" />
+    <Content Include="assets\src-noconflict\snippets\cirru.js" />
+    <Content Include="assets\src-noconflict\snippets\clojure.js" />
+    <Content Include="assets\src-noconflict\snippets\cobol.js" />
+    <Content Include="assets\src-noconflict\snippets\coffee.js" />
+    <Content Include="assets\src-noconflict\snippets\coldfusion.js" />
+    <Content Include="assets\src-noconflict\snippets\csharp.js" />
+    <Content Include="assets\src-noconflict\snippets\css.js" />
+    <Content Include="assets\src-noconflict\snippets\curly.js" />
+    <Content Include="assets\src-noconflict\snippets\c_cpp.js" />
+    <Content Include="assets\src-noconflict\snippets\d.js" />
+    <Content Include="assets\src-noconflict\snippets\dart.js" />
+    <Content Include="assets\src-noconflict\snippets\diff.js" />
+    <Content Include="assets\src-noconflict\snippets\django.js" />
+    <Content Include="assets\src-noconflict\snippets\dockerfile.js" />
+    <Content Include="assets\src-noconflict\snippets\dot.js" />
+    <Content Include="assets\src-noconflict\snippets\drools.js" />
+    <Content Include="assets\src-noconflict\snippets\eiffel.js" />
+    <Content Include="assets\src-noconflict\snippets\ejs.js" />
+    <Content Include="assets\src-noconflict\snippets\elixir.js" />
+    <Content Include="assets\src-noconflict\snippets\elm.js" />
+    <Content Include="assets\src-noconflict\snippets\erlang.js" />
+    <Content Include="assets\src-noconflict\snippets\forth.js" />
+    <Content Include="assets\src-noconflict\snippets\fortran.js" />
+    <Content Include="assets\src-noconflict\snippets\ftl.js" />
+    <Content Include="assets\src-noconflict\snippets\gcode.js" />
+    <Content Include="assets\src-noconflict\snippets\gherkin.js" />
+    <Content Include="assets\src-noconflict\snippets\gitignore.js" />
+    <Content Include="assets\src-noconflict\snippets\glsl.js" />
+    <Content Include="assets\src-noconflict\snippets\gobstones.js" />
+    <Content Include="assets\src-noconflict\snippets\golang.js" />
+    <Content Include="assets\src-noconflict\snippets\graphqlschema.js" />
+    <Content Include="assets\src-noconflict\snippets\groovy.js" />
+    <Content Include="assets\src-noconflict\snippets\haml.js" />
+    <Content Include="assets\src-noconflict\snippets\handlebars.js" />
+    <Content Include="assets\src-noconflict\snippets\haskell.js" />
+    <Content Include="assets\src-noconflict\snippets\haskell_cabal.js" />
+    <Content Include="assets\src-noconflict\snippets\haxe.js" />
+    <Content Include="assets\src-noconflict\snippets\hjson.js" />
+    <Content Include="assets\src-noconflict\snippets\html.js" />
+    <Content Include="assets\src-noconflict\snippets\html_elixir.js" />
+    <Content Include="assets\src-noconflict\snippets\html_ruby.js" />
+    <Content Include="assets\src-noconflict\snippets\ini.js" />
+    <Content Include="assets\src-noconflict\snippets\io.js" />
+    <Content Include="assets\src-noconflict\snippets\jack.js" />
+    <Content Include="assets\src-noconflict\snippets\jade.js" />
+    <Content Include="assets\src-noconflict\snippets\java.js" />
+    <Content Include="assets\src-noconflict\snippets\javascript.js" />
+    <Content Include="assets\src-noconflict\snippets\json.js" />
+    <Content Include="assets\src-noconflict\snippets\jsoniq.js" />
+    <Content Include="assets\src-noconflict\snippets\jsp.js" />
+    <Content Include="assets\src-noconflict\snippets\jsx.js" />
+    <Content Include="assets\src-noconflict\snippets\julia.js" />
+    <Content Include="assets\src-noconflict\snippets\kotlin.js" />
+    <Content Include="assets\src-noconflict\snippets\latex.js" />
+    <Content Include="assets\src-noconflict\snippets\lean.js" />
+    <Content Include="assets\src-noconflict\snippets\less.js" />
+    <Content Include="assets\src-noconflict\snippets\liquid.js" />
+    <Content Include="assets\src-noconflict\snippets\lisp.js" />
+    <Content Include="assets\src-noconflict\snippets\livescript.js" />
+    <Content Include="assets\src-noconflict\snippets\live_script.js" />
+    <Content Include="assets\src-noconflict\snippets\logiql.js" />
+    <Content Include="assets\src-noconflict\snippets\lsl.js" />
+    <Content Include="assets\src-noconflict\snippets\lua.js" />
+    <Content Include="assets\src-noconflict\snippets\luapage.js" />
+    <Content Include="assets\src-noconflict\snippets\lucene.js" />
+    <Content Include="assets\src-noconflict\snippets\makefile.js" />
+    <Content Include="assets\src-noconflict\snippets\markdown.js" />
+    <Content Include="assets\src-noconflict\snippets\mask.js" />
+    <Content Include="assets\src-noconflict\snippets\matlab.js" />
+    <Content Include="assets\src-noconflict\snippets\maze.js" />
+    <Content Include="assets\src-noconflict\snippets\mel.js" />
+    <Content Include="assets\src-noconflict\snippets\mipsassembler.js" />
+    <Content Include="assets\src-noconflict\snippets\mips_assembler.js" />
+    <Content Include="assets\src-noconflict\snippets\mushcode.js" />
+    <Content Include="assets\src-noconflict\snippets\mysql.js" />
+    <Content Include="assets\src-noconflict\snippets\nix.js" />
+    <Content Include="assets\src-noconflict\snippets\nsis.js" />
+    <Content Include="assets\src-noconflict\snippets\objectivec.js" />
+    <Content Include="assets\src-noconflict\snippets\ocaml.js" />
+    <Content Include="assets\src-noconflict\snippets\pascal.js" />
+    <Content Include="assets\src-noconflict\snippets\perl.js" />
+    <Content Include="assets\src-noconflict\snippets\pgsql.js" />
+    <Content Include="assets\src-noconflict\snippets\php.js" />
+    <Content Include="assets\src-noconflict\snippets\pig.js" />
+    <Content Include="assets\src-noconflict\snippets\plain_text.js" />
+    <Content Include="assets\src-noconflict\snippets\powershell.js" />
+    <Content Include="assets\src-noconflict\snippets\praat.js" />
+    <Content Include="assets\src-noconflict\snippets\prolog.js" />
+    <Content Include="assets\src-noconflict\snippets\properties.js" />
+    <Content Include="assets\src-noconflict\snippets\protobuf.js" />
+    <Content Include="assets\src-noconflict\snippets\python.js" />
+    <Content Include="assets\src-noconflict\snippets\r.js" />
+    <Content Include="assets\src-noconflict\snippets\razor.js" />
+    <Content Include="assets\src-noconflict\snippets\rdoc.js" />
+    <Content Include="assets\src-noconflict\snippets\rhtml.js" />
+    <Content Include="assets\src-noconflict\snippets\rst.js" />
+    <Content Include="assets\src-noconflict\snippets\ruby.js" />
+    <Content Include="assets\src-noconflict\snippets\rust.js" />
+    <Content Include="assets\src-noconflict\snippets\sass.js" />
+    <Content Include="assets\src-noconflict\snippets\scad.js" />
+    <Content Include="assets\src-noconflict\snippets\scala.js" />
+    <Content Include="assets\src-noconflict\snippets\scheme.js" />
+    <Content Include="assets\src-noconflict\snippets\scss.js" />
+    <Content Include="assets\src-noconflict\snippets\sh.js" />
+    <Content Include="assets\src-noconflict\snippets\sjs.js" />
+    <Content Include="assets\src-noconflict\snippets\smarty.js" />
+    <Content Include="assets\src-noconflict\snippets\snippets.js" />
+    <Content Include="assets\src-noconflict\snippets\soy_template.js" />
+    <Content Include="assets\src-noconflict\snippets\space.js" />
+    <Content Include="assets\src-noconflict\snippets\sparql.js" />
+    <Content Include="assets\src-noconflict\snippets\sql.js" />
+    <Content Include="assets\src-noconflict\snippets\sqlserver.js" />
+    <Content Include="assets\src-noconflict\snippets\stylus.js" />
+    <Content Include="assets\src-noconflict\snippets\svg.js" />
+    <Content Include="assets\src-noconflict\snippets\swift.js" />
+    <Content Include="assets\src-noconflict\snippets\swig.js" />
+    <Content Include="assets\src-noconflict\snippets\tcl.js" />
+    <Content Include="assets\src-noconflict\snippets\tex.js" />
+    <Content Include="assets\src-noconflict\snippets\text.js" />
+    <Content Include="assets\src-noconflict\snippets\textile.js" />
+    <Content Include="assets\src-noconflict\snippets\toml.js" />
+    <Content Include="assets\src-noconflict\snippets\tsx.js" />
+    <Content Include="assets\src-noconflict\snippets\turtle.js" />
+    <Content Include="assets\src-noconflict\snippets\twig.js" />
+    <Content Include="assets\src-noconflict\snippets\typescript.js" />
+    <Content Include="assets\src-noconflict\snippets\vala.js" />
+    <Content Include="assets\src-noconflict\snippets\vbscript.js" />
+    <Content Include="assets\src-noconflict\snippets\velocity.js" />
+    <Content Include="assets\src-noconflict\snippets\verilog.js" />
+    <Content Include="assets\src-noconflict\snippets\vhdl.js" />
+    <Content Include="assets\src-noconflict\snippets\wollok.js" />
+    <Content Include="assets\src-noconflict\snippets\xml.js" />
+    <Content Include="assets\src-noconflict\snippets\xquery.js" />
+    <Content Include="assets\src-noconflict\snippets\yaml.js" />
+    <Content Include="assets\src-noconflict\theme-ambiance.js" />
+    <Content Include="assets\src-noconflict\theme-chaos.js" />
+    <Content Include="assets\src-noconflict\theme-chrome.js" />
+    <Content Include="assets\src-noconflict\theme-clouds.js" />
+    <Content Include="assets\src-noconflict\theme-clouds_midnight.js" />
+    <Content Include="assets\src-noconflict\theme-cobalt.js" />
+    <Content Include="assets\src-noconflict\theme-crimson_editor.js" />
+    <Content Include="assets\src-noconflict\theme-dawn.js" />
+    <Content Include="assets\src-noconflict\theme-dreamweaver.js" />
+    <Content Include="assets\src-noconflict\theme-eclipse.js" />
+    <Content Include="assets\src-noconflict\theme-github.js" />
+    <Content Include="assets\src-noconflict\theme-gob.js" />
+    <Content Include="assets\src-noconflict\theme-gruvbox.js" />
+    <Content Include="assets\src-noconflict\theme-idle_fingers.js" />
+    <Content Include="assets\src-noconflict\theme-iplastic.js" />
+    <Content Include="assets\src-noconflict\theme-katzenmilch.js" />
+    <Content Include="assets\src-noconflict\theme-kr_theme.js" />
+    <Content Include="assets\src-noconflict\theme-kuroir.js" />
+    <Content Include="assets\src-noconflict\theme-merbivore.js" />
+    <Content Include="assets\src-noconflict\theme-merbivore_soft.js" />
+    <Content Include="assets\src-noconflict\theme-monokai.js" />
+    <Content Include="assets\src-noconflict\theme-mono_industrial.js" />
+    <Content Include="assets\src-noconflict\theme-pastel_on_dark.js" />
+    <Content Include="assets\src-noconflict\theme-solarized_dark.js" />
+    <Content Include="assets\src-noconflict\theme-solarized_light.js" />
+    <Content Include="assets\src-noconflict\theme-sqlserver.js" />
+    <Content Include="assets\src-noconflict\theme-terminal.js" />
+    <Content Include="assets\src-noconflict\theme-textmate.js" />
+    <Content Include="assets\src-noconflict\theme-tomorrow.js" />
+    <Content Include="assets\src-noconflict\theme-tomorrow_night.js" />
+    <Content Include="assets\src-noconflict\theme-tomorrow_night_blue.js" />
+    <Content Include="assets\src-noconflict\theme-tomorrow_night_bright.js" />
+    <Content Include="assets\src-noconflict\theme-tomorrow_night_eighties.js" />
+    <Content Include="assets\src-noconflict\theme-twilight.js" />
+    <Content Include="assets\src-noconflict\theme-vibrant_ink.js" />
+    <Content Include="assets\src-noconflict\theme-xcode.js" />
+    <Content Include="assets\src-noconflict\worker-coffee.js" />
+    <Content Include="assets\src-noconflict\worker-css.js" />
+    <Content Include="assets\src-noconflict\worker-html.js" />
+    <Content Include="assets\src-noconflict\worker-javascript.js" />
+    <Content Include="assets\src-noconflict\worker-json.js" />
+    <Content Include="assets\src-noconflict\worker-lua.js" />
+    <Content Include="assets\src-noconflict\worker-php.js" />
+    <Content Include="assets\src-noconflict\worker-xml.js" />
+    <Content Include="assets\src-noconflict\worker-xquery.js" />
+    <Content Include="Content\Css\bootstrap-responsive.css" />
+    <Content Include="Content\Css\bootstrap-responsive.min.css" />
+    <Content Include="Content\Css\bootstrap.css" />
+    <Content Include="Content\Css\bootstrap.min.css" />
+    <Content Include="Content\Css\style.css" />
+    <Content Include="Content\front\Css\mobile_web.css" />
+    <Content Include="Content\front\Image\home4.jpg" />
+    <Content Include="Content\front\Image\icon-address.png" />
+    <Content Include="Content\front\Image\icon-author.png" />
+    <Content Include="Content\Images\add.gif" />
+    <Content Include="Content\Images\button.png" />
+    <Content Include="Content\Images\con_bg.png" />
+    <Content Include="Content\Images\glyphicons-halflings-white.png" />
+    <Content Include="Content\Images\glyphicons-halflings.png" />
+    <Content Include="Content\Images\icon.png" />
+    <Content Include="Content\Images\icon2.png" />
+    <Content Include="Content\Images\input.png" />
+    <Content Include="Content\Images\logo_820.jpg" />
+    <Content Include="Content\Images\logo_jc.jpg" />
+    <Content Include="Content\Images\logo_ym.jpg" />
+    <Content Include="Content\Images\msg_bg.png" />
+    <Content Include="Content\Images\msg_box.png" />
+    <Content Include="Content\Images\nav.png" />
+    <Content Include="Content\Images\nopic.jpg" />
+    <Content Include="Content\Images\pic1.jpg" />
+    <Content Include="Content\Images\progressbar_microsoft.gif" />
+    <Content Include="Content\Images\x_bg.png" />
+    <Content Include="Content\Images\z2.jpg" />
+    <Content Include="Content\Images\z3.jpg" />
+    <Content Include="Content\Images\z4.jpg" />
+    <Content Include="Content\Js\artDialog\artDialog.js" />
+    <Content Include="Content\Js\artDialog\artDialog.source.js" />
+    <Content Include="Content\Js\artDialog\index.html" />
+    <Content Include="Content\Js\artDialog\jquery.artDialog.js" />
+    <Content Include="Content\Js\artDialog\jquery.artDialog.source.js" />
+    <Content Include="Content\Js\artDialog\license.txt" />
+    <Content Include="Content\Js\artDialog\plugins\iframeTools.js" />
+    <Content Include="Content\Js\artDialog\plugins\iframeTools.source.js" />
+    <Content Include="Content\Js\artDialog\skins\aero.css" />
+    <Content Include="Content\Js\artDialog\skins\aero\aero_s.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\aero_s2.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_close.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_e.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_n.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_ne.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_nw.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_s.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_se.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_sw.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_title_icon.png" />
+    <Content Include="Content\Js\artDialog\skins\aero\ie6\aui_w.png" />
+    <Content Include="Content\Js\artDialog\skins\black.css" />
+    <Content Include="Content\Js\artDialog\skins\black\bg.png" />
+    <Content Include="Content\Js\artDialog\skins\black\bg2.png" />
+    <Content Include="Content\Js\artDialog\skins\black\bg_css3.png" />
+    <Content Include="Content\Js\artDialog\skins\black\bg_css3_2.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\close.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\e.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\n.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\ne.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\nw.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\s.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\se.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\sw.png" />
+    <Content Include="Content\Js\artDialog\skins\black\ie6\w.png" />
+    <Content Include="Content\Js\artDialog\skins\blue.css" />
+    <Content Include="Content\Js\artDialog\skins\blue\bg.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\bg2.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\bg_css3.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\bg_css3_2.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\close.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\e.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\n.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\ne.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\nw.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\s.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\se.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\sw.png" />
+    <Content Include="Content\Js\artDialog\skins\blue\ie6\w.png" />
+    <Content Include="Content\Js\artDialog\skins\chrome.css" />
+    <Content Include="Content\Js\artDialog\skins\chrome\border.png" />
+    <Content Include="Content\Js\artDialog\skins\chrome\chrome_s.png" />
+    <Content Include="Content\Js\artDialog\skins\default.css" />
+    <Content Include="Content\Js\artDialog\skins\green.css" />
+    <Content Include="Content\Js\artDialog\skins\green\bg.png" />
+    <Content Include="Content\Js\artDialog\skins\green\bg2.png" />
+    <Content Include="Content\Js\artDialog\skins\green\bg_css3.png" />
+    <Content Include="Content\Js\artDialog\skins\green\bg_css3_2.png" />
+    <Content Include="Content\Js\artDialog\skins\green\color_bg.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\close.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\e.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\n.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\ne.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\nw.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\s.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\se.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\sw.png" />
+    <Content Include="Content\Js\artDialog\skins\green\ie6\w.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\error.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\face-sad.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\face-smile.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\loading.gif" />
+    <Content Include="Content\Js\artDialog\skins\icons\question.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\succeed.png" />
+    <Content Include="Content\Js\artDialog\skins\icons\warning.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog.css" />
+    <Content Include="Content\Js\artDialog\skins\idialog\idialog_s.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\idialog_s2.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_close.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_e.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_n.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_ne.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_nw.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_s.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_se.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_sw.png" />
+    <Content Include="Content\Js\artDialog\skins\idialog\ie6\aui_w.png" />
+    <Content Include="Content\Js\artDialog\skins\opera.css" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_close.hover.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_close.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_e.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_n.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_ne.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_nw.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_s.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_se.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_sw.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\ie6\aui_w.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\s1.png" />
+    <Content Include="Content\Js\artDialog\skins\opera\s2.png" />
+    <Content Include="Content\Js\artDialog\skins\simple.css" />
+    <Content Include="Content\Js\artDialog\skins\twitter.css" />
+    <Content Include="Content\Js\bootstrap.file-input.js" />
+    <Content Include="Content\Js\bootstrap.js" />
+    <Content Include="Content\Js\bootstrap.min.js" />
+    <Content Include="Content\Js\ckform.js" />
+    <Content Include="Content\Js\common.js" />
+    <Content Include="assets\js\config.js" />
+    <Content Include="Content\Js\formValidator.js" />
+    <Content Include="Content\Js\formValidatorRegex.js" />
+    <Content Include="Content\Js\jquery.js" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\autoupdate.pubxml" />
+    <None Include="Properties\PublishProfiles\AutoUpdateServer.pubxml" />
+    <Content Include="Views\Login.cshtml" />
+    <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\HospitalManage.cshtml" />
+    <Content Include="Views\UserManage.cshtml" />
+    <Content Include="Views\UserAdd.cshtml" />
+    <Content Include="Views\UserEdit.cshtml" />
+    <Content Include="Views\UpLoadFile.cshtml" />
+    <Content Include="Views\VersionManage.cshtml" />
+    <Content Include="Views\HospitalAdd.cshtml" />
+    <Content Include="Views\HospitalEdit.cshtml" />
+    <Content Include="Views\VersionEdit.cshtml" />
+    <Content Include="Views\RoleManage.cshtml" />
+    <Content Include="Views\RoleAdd.cshtml" />
+    <Content Include="Views\RoleEdit.cshtml" />
+    <Content Include="Views\NoPermissions.cshtml" />
+    <Content Include="Views\UserPassWordReset.cshtml" />
+    <Content Include="Views\UpLoadBaseModelFile.cshtml" />
+    <Content Include="Views\UpLoadAutoUpdateClient.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ConstFile.cs" />
+    <Compile Include="Common\FileUtil.cs" />
+    <Compile Include="Common\LogHelper.cs" />
+    <Compile Include="Common\MD5.cs" />
+    <Compile Include="Common\MemoryCenter.cs" />
+    <Compile Include="Common\PermissionHelper.cs" />
+    <Compile Include="Common\FileControlCenter.cs" />
+    <Compile Include="Common\ZipHelper.cs" />
+    <Compile Include="DAL\DataAccessCenter.cs" />
+    <Compile Include="DAL\MyContext.cs" />
+    <Compile Include="Model\Client\UserConfig.cs" />
+    <Compile Include="Model\Request\UpLoadFileRequestModel.cs" />
+    <Compile Include="Model\ServerConfig.cs" />
+    <Compile Include="Model\HospitalModel.cs" />
+    <Compile Include="Model\LoginModel.cs" />
+    <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\NewestVersionModel.cs" />
+    <Compile Include="Model\Reponse\ResponseModel.cs" />
+    <Compile Include="Model\RoleModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
+    <Compile Include="Model\VersionModel.cs" />
+    <Compile Include="Modules\BaseModule.cs" />
+    <Compile Include="Modules\Bootstrapper.cs" />
+    <Compile Include="Modules\HospitalModule.cs" />
+    <Compile Include="Modules\RoleModule.cs" />
+    <Compile Include="Modules\IndexModule.cs" />
+    <Compile Include="Modules\UpLoadModule.cs" />
+    <Compile Include="Modules\UserModule.cs" />
+    <Compile Include="Modules\WelcomeModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserIdentity.cs" />
+    <Compile Include="UserMapper.cs" />
+    <Compile Include="BLL\ClientUpdateBll.cs" />
+    <Compile Include="BLL\HospitalBll.cs" />
+    <Compile Include="BLL\LoginBll.cs" />
+    <Compile Include="BLL\UpLoadFileBll.cs" />
+    <Compile Include="BLL\RoleBll.cs" />
+    <Compile Include="BLL\UserBll.cs" />
+    <Compile Include="BLL\VersionBll.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\DownLoad\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4821</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4821/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets'))" />
+  </Target>
+  <Import Project="..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets" Condition="Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

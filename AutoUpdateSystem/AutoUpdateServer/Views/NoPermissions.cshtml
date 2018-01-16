@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无权限</title>
+    <style type="text/css">
+        .absolute_center {
+            /*display:none;*/
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            resize: both; /*用于设置了所有除overflow为visible的元素*/
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="absolute_center">
+        <img src="~/assets/img/锁.png" style="margin:10px" />
+        <div style="position:absolute; z-index:2; left:60px; top:10px">
+            <span style="color:red;font-size:40px;">您没有权限浏览该页面！</span>
+        </div>
+    </div>
+</body>
+</html>

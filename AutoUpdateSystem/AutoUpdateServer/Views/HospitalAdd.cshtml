@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <script type="text/javascript" src="~/Content/Js/jquery.js"></script>
+    <script type="text/javascript" src="~/Content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/Content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/Content/Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/UserAdd" class="definewidth m20">
+        <table class="table table-bordered table-hover definewidth m10">
+            @*<tr>
+                <td class="tableleft">医院编号</td>
+                <td><input type="text" id="HospitalID" name="HospitalID" onBlur="checkName()" /><span style="color:red;display:none" id="checkIDSpan">当前编号已存在</span><span style="color:red;display:none" id="checkNumberSpan">只能为数字</span></td>
+            </tr>*@
+            <tr>
+                <td class="tableleft">医院名称</td>
+                <td><input type="text" name="HospitalName" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button class="btn btn-primary" type="button" onclick="AddHospital()">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    var right = false;
+    $(function () {
+        $('#backid').click(function () {
+            window.location.href = "HospitalManage";
+        });
+        $('#checkIDSpan').hide();
+        $('#checkNumberSpan').hide();
+    });
+
+    function checkName() {
+        var HospitalID = $('#HospitalID').val();
+        if (HospitalID == "") {
+            return;
+        }
+        if (isNaN(HospitalID)) {
+            $('#checkNumberSpan').show();
+            $('#checkIDSpan').hide();
+            right = false;
+            return;
+        }
+        $('#checkNumberSpan').hide();
+        $.ajax({
+            type: "post",
+            url: "checkHospitalID/" + HospitalID,
+            dataType: "json",
+            success: function (data) {
+                if (data == true) {
+                    right = false;
+                    $('#checkIDSpan').show();
+                }
+                else {
+                    $('#checkIDSpan').hide();
+                    right = true;
+                }
+            }
+        });
+    }
+
+    function AddHospital() {
+       // var id = $("input[name='HospitalID']").val();
+        var name = $("input[name='HospitalName']").val();
+        if (name == "") {
+            //right = false;
+            alert("请将信息填写完整");
+            return;
+        }
+        //if (!right) {
+        //    alert("请将信息修改完整");
+        //    return;
+        //}
+        //right = true;
+        var status = $("input:radio:checked").val();
+        $.ajax({
+            type: "post",
+            url: "HospitalAdd/"+ name,
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == true) {
+                    window.location = "HospitalManage";
+                }
+                else {
+                    alert(data.Msg);
+                    window.location = "HospitalManage";
+                }
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="~/content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/content/Css/style.css" />
+    <script type="text/javascript" src="~/content/Js/jquery.js"></script>
+    <script type="text/javascript" src="~/content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/content/Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form class="form-inline definewidth m20" action="../DownLoadAutoUpdateClient/@ViewBag.ClientFileName" method="Get">
+        <button type="submit" class="btn btn-success" >下载该医院自动更新客户端</button>
+    </form>
+    <table class="table table-bordered table-hover definewidth m10">
+        <thead>
+            <tr>
+                <th>版本号</th>
+                <th>上传者</th>
+                <th>上传时间</th>
+                <th>提示信息</th>
+                <th>管理操作</th>
+            </tr>
+        </thead>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Number</td>
+                    <td>@item.User</td>
+                    <td>@item.UpLoadTime</td>
+                    @if (string.IsNullOrEmpty(item.Description)|| string.IsNullOrEmpty(item.BlackList)
+                        || string.IsNullOrEmpty(item.ExistSoIgnoreList) || string.IsNullOrEmpty(item.DynamicCode))
+                    {
+                        <td style="color:red">请尽快编辑补全信息!!!!!!!</td>
+                    }
+                    else
+                    {
+                        <td>@item.Description</td>
+                    }
+                    <td>
+                        @if (ViewBag.NewestVersion != item.Number)
+                        {
+                            <a style="cursor:pointer;color:darkgreen" onclick="Set(this)" title="@item.Number" id="@item.HospitalId">设定为最新版本</a>
+                        }
+                        else
+                        {
+                            <span style="color:mediumpurple">当前为最新版本</span>
+                        }
+                        <a href="../VersionEdit/@item.Id" style="margin:auto">编辑</a>
+                        @*<a style="cursor:pointer" onclick="Delete(this)" title="@item.Id" id="@item.HospitalId">删除</a>*@
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    @*<div class="inline pull-right page">
+            10122 条记录 1/507 页  <a href='#'>下一页</a>     <span class='current'>1</span><a href='#'>2</a><a href='/chinapost/index.php?m=Label&a=index&p=3'>3</a><a href='#'>4</a><a href='#'>5</a>  <a href='#'>下5页</a> <a href='#'>最后一页</a>
+        </div*@
+</body>
+</html>
+<script>
+    $(function () {
+        $('#addnew').click(function () {
+            window.location.href = "../../UpLoad/UpLoadFile";
+        });
+    });
+
+    function Set(val) {
+        if (confirm("确定要设置该版本为最新版本吗？")) {
+            $.ajax({
+                type: "POST",
+                url: "../VersionSet/" + val.title + "/" + val.id,
+                success: function (data) {
+                    if (!data) {
+                        alert("设置失败:" + data);
+                    }
+                    location.reload();
+                }
+            });
+        }
+    }
+
+
+    function Delete(val) {
+        if (confirm("将会删除服务端该版本的所有文件，确定要删除吗？")) {
+            $.ajax({
+                type: "POST",
+                url: "../VersionDelete/" + val.title + "/" + val.id,
+                success: function (data) {
+                    if (data != null && data != "")
+                    {
+                        alert("删除失败:" + data);
+                    }
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <script src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script src="~/assets/js/bui.js"></script>
+    <link href="~/assets/css/dpl-min.css" rel="stylesheet" />
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        s {
+        color:red;
+        font-size:20px
+        }
+    </style>
+</head>
+<body>
+
+    <form action="UserAdd" method="post" class="definewidth m20" onsubmit="return toVaild()">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft">真实姓名：</td>
+                <td><input type="text" id="UserName" name="UserName" onBlur="CheckName()" /><s>&nbsp;*</s><span style="color:red;" id="checkNameSpan"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">输入密码:</td>
+                <td><input type="password" name="FirstPassword" /><s>&nbsp;*</s></td>
+            </tr>
+            <tr>
+                <td class="tableleft">再次输入密码:</td>
+                <td><input type="password" name="SecondPassword" onBlur="checkPwd()" /><s>&nbsp;*</s><span style="color:red;display:none" id="checkPwdSpan">两次密码不一致</span></td>
+            </tr>
+            <tr>
+                <td class="tableleft">角色:</td>
+                <td >
+                    <div style="float:left">
+                        @*<div id="SelectRoleName">
+                            <input type="hidden" id="RoleName" name="RoleName" data-rules="{required:true}" value="">
+                        </div>*@
+                        <select id="RoleName" name="RoleName"><option value="">请选择</option></select><s>&nbsp;*</s>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button class="btn btn-primary" type="submit">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    var right = false;
+    $(function () {
+        $('#backid').click(function () {
+            window.location.href = "../UserManage";
+        });
+        $('#checkPwdSpan').hide();
+
+        $.ajax({
+            type: "GET",
+            url: "../../Role/GetRolesToJson",
+            cache: false,
+            contentType: JSON,
+            success: function (data) {
+                var items = data;
+                var objSelectNow = document.getElementById("RoleName");
+                $.each(items,function(n,value) 
+                {
+                    var objOption = document.createElement("OPTION");
+                    objOption.text = value.text;
+                    objOption.value = value.value;
+                    objSelectNow.options.add(objOption);
+                });
+                //BUI.use(['bui/select'], function (Select) {
+                //    select = new Select.Select({
+                //        render: '#SelectRoleName',
+                //        valueField: '#RoleName',
+                //        multipleSelect: false,
+                //        items: items
+                //    });
+                //});
+                //select.render();
+            }
+        });
+    });
+
+    function CheckName() {
+        var userName = $('#UserName').val();
+        if (!userName.match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{3,10}$/)) {
+            var msg = "汉字 英文字母 数字 下划线组成，3-10位";
+            $("#checkNameSpan").html(msg);
+            return;
+        }
+        else
+        {
+            $("#checkNameSpan").html("");
+        }
+        if (userName == "") {
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "CheckUserName/" + userName,
+            dataType: "json",
+            success: function (data) {
+                if (data == true) {
+                    right = false;
+                    $("#checkNameSpan").html("该用户名已经存在");
+                }
+                else {
+                    $('#checkNameSpan').html("");
+                    right = true
+                }
+            }
+        });
+    }
+
+    function checkPwd() {
+        var fpwd = $("input[name='firstPassword']").val();
+        var spwd = $("input[name='secondPassword']").val();
+        if (fpwd != spwd) {
+            $('#checkPwdSpan').show();
+            right = false;
+        }
+        else {
+            $('#checkPwdSpan').hide();
+            right = true;
+        }
+    }
+
+    function toVaild() {
+        var userName = $("input[name='UserName']").val();
+        var fpwd = $("input[name='FirstPassword']").val();
+        var spwd = $("input[name='SecondPassword']").val();
+        var roleName = $("input[name='RoleName']").val();
+        if (userName == "" || fpwd == "" || spwd == "" || roleName == "") {
+            alert("请将信息填写完整");
+            return false;
+        }
+        if (!right) {
+            alert("两次密码不一致");
+            return false;
+        }
+        return true;
+    }
+
+</script>

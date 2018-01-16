@@ -1,0 +1,82 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title></title>
+
+
+    <link href="~/assets/css/dpl-min.css" rel="stylesheet" />
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <script src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script src="~/assets/js/bui-min.js"></script>
+    <script src="~/assets/js/layout-min.js"></script>
+    <script src="~/assets/js/uploader-min.js"></script>
+</head>
+<body>
+
+    <div class="demo-content" style="margin:50px">
+
+        <div class="demo-content" style="margin:50px">
+            <h1 style="color:red"> 上传自动更新客户端文件注意点：</h1>
+            <h5>1.压缩包必须是7Z,rar,Zip格式【Linux服务端只接受7Z】</h5>
+            <h1>&nbsp;</h1>
+            <div class="row">
+                <div class="span8">
+                    <div id="J_UploaderBase">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use('bui/uploader', function (Uploader) {
+
+        var uploaderBaseModel = new Uploader.Uploader({
+            //指定使用主题
+            //theme: 'imageView',
+            render: '#J_UploaderBase',
+            url: 'API/UpLoadBaseModelFile/',
+            rules: {
+                //文的类型
+                ext: ['.7z,.rar,.zip', '文件类型只能为{0}'],
+                //上传的最大个数
+               // max: [1, '文件的最大个数不能超过{0}个'],
+                //文件大小的最小值,这个单位是kb
+                minSize: [0, '文件的大小不能小于{0}KB'],
+                //文件大小的最大值,单位也是kb
+                maxSize: [1024 * 500, '文件大小不能大于100M']
+            },
+            isSuccess: function (result) {
+                if (result.success)
+                {
+                    return true;
+                }
+                return false;
+            },
+            success: function (result) {
+                //alert("success");
+            },
+            //失败的回调
+            error: function (result) {
+                //alert("error");
+            }
+        }).render();
+
+        ////获取上传文件的对列
+        //var queue = uploader.get('queue');
+
+        //设置文件的回显
+        //queue.setItems([
+        //  {success: true, name: "Winter.jpg",ext:'.jpg', url:"2014_05_22/Winter.jpg"}
+        //]);
+    })
+</script>
+<!-- script end -->

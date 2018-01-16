@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.VersionModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+
+    <link href="~/assets/css/dpl-min.css" rel="stylesheet" />
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <script src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script src="~/assets/js/bui-min.js"></script>
+    <script src="~/assets/js/layout-min.js"></script>
+    <script src="~/assets/js/uploader-min.js"></script>
+    <script src="~/assets/src-noconflict/ace.js"></script>
+    <script src="~/assets/src-noconflict/ext-language_tools.js"></script>
+</head>
+<body>
+
+    <div class="demo-content" style="margin: 50px">
+        <h1 style="color: red"> 上传医院版本文件注意点：</h1>
+        <h5>1.只能上传自己所管理的医院压缩包</h5>
+        <h5>2.上传压缩的压缩包会自动成为最新版本！</h5>
+        <h5>3.压缩包必须是7Z,rar,Zip格式【Linux服务端只接受7Z】</h5>
+        <h5>4.压缩包压缩的时候必须不包含目录文件夹</h5>
+        <h1>&nbsp;</h1>
+        <table class="table table-bordered table-hover definewidth m10" id="table">
+            <tr>
+                <td class="tableleft">黑名单：</td>
+                <td>
+                    <textarea type="text" id="BlackList" style="min-width: 500px; min-height: 200px" placeholder="请把要过滤文件逗号隔开,支持模糊过滤">@Model.BlackList</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">存在则忽略：</td>
+                <td>
+                    <textarea type="text" id="ExistSoIgnoreList" style="min-width: 500px; min-height: 200px" placeholder="请把要过滤文件逗号隔开,支持模糊过滤">@Model.ExistSoIgnoreList</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">动态代码：</td>
+                <td>
+                    <pre id="DynamicCode" style="width: 800px; min-height: 200px"><textarea>@Model.DynamicCode</textarea></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">版本信息：</td>
+                <td>
+                    <textarea type="text" id="Description" style="min-width: 500px; min-height: 200px">@Model.Description</textarea>
+                    <input style="display: none" value="@Model.HospitalId" id="HospitalId" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">上传文件:</td>
+                <td id="uploaderTd">
+                    <div id="J_UploaderOther" onmo></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">提交:</td>
+                <td>
+                    <input type="button" onclick="Submit()" class="button button-primary" Value="提交" />
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<!-- script start -->
+<script type="text/javascript">
+    //初始化对象
+    editor = ace.edit("DynamicCode");
+
+    //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+    theme = "clouds";
+    language = "csharp";
+    editor.setTheme("ace/theme/" + theme);
+    editor.session.setMode("ace/mode/" + language);
+
+    //字体大小
+    editor.setFontSize(18);
+
+    //设置只读（true时只读，用于展示代码）
+    editor.setReadOnly(false);
+
+    //自动换行,设置为off关闭
+    editor.setOption("wrap", "free");
+
+    //启用提示菜单
+    ace.require("ace/ext/language_tools");
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    var hospitalId = $("#HospitalId").val();
+    var filePath = "";
+
+    BUI.use('bui/uploader', function (Uploader) {
+        var uploaderOther = new Uploader.Uploader({
+            //指定使用主题
+            //theme: 'imageView',
+            render: '#J_UploaderOther',
+            url: '../../UpLoad/API/CheckFile/' + hospitalId,
+            rules: {
+                //文的类型
+                ext: ['.7z,.rar,.zip', '文件类型只能为{0}'],
+                //上传的最大个数
+                //max: [1, '文件的最大个数不能超过{0}个'],
+                //文件大小的最小值,这个单位是kb
+                minSize: [0, '文件的大小不能小于{0}KB'],
+                //文件大小的最大值,单位也是kb
+                maxSize: [1024 * 300, '文件大小不能大于300M']
+            },
+            isSuccess: function (result) {
+                if (result.success) {
+                    filePath = result.filePath;
+                    return true;
+                }
+                return false;
+            },
+            success: function (result) {
+                //alert("success");
+            },
+            //失败的回调
+            error: function (result) {
+                //alert("error");
+            }
+        }).render();
+    });
+
+    function Submit() {
+        //if (filePath === "" || string.isNullOrUndefined(filePath)) {
+            //return alert("文件未上传或者上传有误");
+       // }
+        var blackList = $("#BlackList").val();
+        var existSoIgnoreList = $("#ExistSoIgnoreList").val();
+        var dynamicCode = editor.getValue();
+        var description = $("#Description").val();
+
+        $.ajax({
+            type: "post",
+            url: '../../UpLoad/API/UpLoadFile?HospitalId=' + hospitalId + '&BlackList=' + blackList + '&ExistSoIgnoreList=' + existSoIgnoreList +
+            '&DynamicCode=' +
+            dynamicCode +
+            '&Description=' +
+            description +
+            '&FilePath='
+            + filePath,
+            cache: false,
+            contentType: JSON,
+            success: function (data) {
+                if (data.success) {
+                    alert("提交成功");
+                } else {
+                    alert("提交失败:" + data.msg);
+                }
+            }
+        });
+    }
+
+
+</script>
+<!-- script end -->

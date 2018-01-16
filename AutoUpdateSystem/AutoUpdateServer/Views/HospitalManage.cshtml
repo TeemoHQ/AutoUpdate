@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.HospitalModel>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="~/content/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/content/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/content/Css/style.css" />
+    <script type="text/javascript" src="~/content/Js/jquery.js"></script>
+    <script type="text/javascript" src="~/content/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/content/Js/ckform.js"></script>
+    <script type="text/javascript" src="~/content/Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form class="form-inline definewidth m20" action="QueryHospital" method="Post">
+        医院名称：
+        <input type="text" name="arg"  class="abc input-default" placeholder="" value="" data-tip="{text:'输入医院名称'}">&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增医院</button>
+    </form>
+    <table class="table table-bordered table-hover definewidth m10">
+        <thead>
+            <tr>
+                @*<th>医院编号</th>*@
+                <th>医院名称</th>
+                <th>最新版本</th>
+                <th>管理操作</th>
+            </tr>
+        </thead>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>@item.Id</td>*@
+                    <td>@item.Name</td>
+                    @if (string.IsNullOrEmpty(item.NewestVersion))
+                    {
+                        <td>暂无版本</td>
+                    }
+                    else
+                    {
+                        <td>@item.NewestVersion</td>
+                    }
+                    <td>
+                        <a href="VersionManage/@item.Id" style="margin:auto">版本控制</a>
+                        <a href="HospitalEdit/@item.Id" style="margin:auto">编辑</a>
+                        <a href="../UpLoad/UpLoadFile/@item.Id" style="margin:auto">上传版本</a>
+                        <a style="cursor:pointer" onclick="del(this)" title="@item.Id">删除</a>
+                    </td>
+
+                </tr>
+            }
+        }
+    </table>
+    @*<div class="inline pull-right page">
+            10122 条记录 1/507 页  <a href='#'>下一页</a>     <span class='current'>1</span><a href='#'>2</a><a href='/chinapost/index.php?m=Label&a=index&p=3'>3</a><a href='#'>4</a><a href='#'>5</a>  <a href='#'>下5页</a> <a href='#'>最后一页</a>
+        </div*@
+</body>
+</html>
+<script>
+    $(function () {
+        $('#addnew').click(function () {
+            window.location.href = "HospitalAdd";
+        });
+    });
+
+    function del(val) {
+        if (confirm("确定要删除吗？")) {
+            $.ajax({
+                type: "POST",
+                url: "HospitalDelete/" + val.title,
+                dataType: "json",
+                success: function (data) {
+                    if (!data.Success) {
+                        alert(data.Msg);
+                    }
+                    window.location.href = "HospitalManage";
+                },
+            });
+
+        }
+    }
+</script>

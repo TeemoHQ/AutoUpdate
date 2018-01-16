@@ -1,0 +1,27 @@
+﻿<Window x:Class="AutoUpdateClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdateClient"
+        mc:Ignorable="d"
+        WindowState="{Binding MyWindowState}"
+        WindowStyle="None"
+        ResizeMode="NoResize" Width="1100" Height="650">
+    <Window.DataContext>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
+    </Window.DataContext>
+    <Canvas >
+        <Image Source="Image\Bg.png" Stretch="Fill" Width="1100" Height="650"/>
+        <TextBox Background="#0f000000"
+                 Width="600"
+                 Height="170" Foreground="White"
+                 Canvas.Right="200"
+                 Canvas.Bottom="20"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True" 
+                 FontSize="16"
+                 Text="{Binding LogText}" Canvas.Left="240" Canvas.Top="414">
+        </TextBox>
+    </Canvas>
+</Window>

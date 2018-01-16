@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<AutoUpdateServer.Model.UserModel>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+
+    <script src="~/assets/js/jquery-1.8.1.min.js"></script>
+    <script src="~/assets/js/bui.js"></script>
+    <link href="~/assets/css/dpl-min.css" rel="stylesheet" />
+    <link href="~/assets/css/bui-min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/bootstrap.css" />
+
+
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+            float: none;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        s {
+            color: red;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form action="../UserEdit" method="post" class="definewidth m20" onsubmit="return toVaild()">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft">真实姓名</td>
+                <td>
+                    <input type="text" readonly="readonly" name="UserName" value="@Model.Name" /><s>&nbsp;*</s>
+                    <input type="hidden" name="PassWord" value="@Model.PassWord" />
+                </td>
+
+            </tr>
+            <tr>
+                <td class="tableleft">角色</td>
+                <td>
+                    @*<div id="SelectRoleName">
+                            <input type="hidden" id="RoleName" name="RoleName" data-rules="{required:true}" value="@Model.RoleName">
+                        </div>*@
+                    <select id="RoleName" name="RoleName"><option value="@Model.RoleName">@Model.RoleName</option></select><s>&nbsp;*</s>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+</html>
+<script>
+
+    var right = true;
+
+    $(function () {
+        $('#checkPwdSpan').hide();
+        $("input[name='UserName']").attr("readonly", "readonly");
+
+        $('#backid').click(function () {
+            window.location.href = "../UserManage";
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "../../../Role/GetRolesToJson",
+            cache: false,
+            contentType: JSON,
+            success: function (data) {
+                var items = data;
+                var objSelectNow = document.getElementById("RoleName");
+                var currentValue=objSelectNow.options[0].value;
+                $.each(items, function (n, data) {
+                    var objOption = document.createElement("OPTION");
+                    if (currentValue != data.value)
+                    {
+                        objOption.text = data.text;
+                        objOption.value = data.value;
+                        objSelectNow.options.add(objOption);
+                    }
+                });
+
+                //出现BUI的样式与bootstrap样式的冲突。先注释
+                //BUI.use(['bui/select'], function (Select) {
+                //    select = new Select.Select({
+                //        render: '#SelectRoleName',
+                //        valueField: '#RoleName',
+                //        multipleSelect: false,
+                //        items: items
+                //    });
+                //});
+                //select.render();
+            }
+        });
+    });
+
+
+
+    function toVaild() {
+        var roleName = $("input[name='RoleName']").val();
+        if (roleName == "") {
+            alert("请将信息填写完整");
+            return false;
+        }
+        return true;
+    }
+</script>
